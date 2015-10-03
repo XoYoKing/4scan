@@ -1,6 +1,6 @@
 # 4scan
 
-4scan allow you to scan your network to discover tge devices connected.
+4scan allow you to scan your network to discover the devices connected.
 
 ## Installation
 
