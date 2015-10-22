@@ -81,8 +81,6 @@
     NSMutableArray* final = [NSMutableArray new];
     NSMutableArray* ips = [NSMutableArray new];
     
-
-
     for(int i = 0; i < [hosts count]; i++){
         
         NSArray *parts = [[hosts objectAtIndex:i] componentsSeparatedByString:@"---"];
@@ -97,6 +95,11 @@
         [host setIp:ip];
         
         NSString* name = ([[parts objectAtIndex:1] rangeOfString:@"?"].location != NSNotFound) ? [parts objectAtIndex:2] : [parts objectAtIndex:1];
+
+        // Fix missing leading 0
+        if([name length] == 16 && [name containsString:@":"])
+            name = [NSString stringWithFormat:@"%@%@", @"0", name];
+        
         [host setName:name];
         
         // Check bad IP and Name

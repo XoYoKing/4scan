@@ -37,17 +37,12 @@
 -(void)refresh:(id)sender{
     
     [menu removeAllItems];
-    
     [self addRefreshItem];
-    
     hosts = [Tools scanMyLan];
         
     for(Host *host in hosts){
-
         NSString* title = [[[host ip] stringByAppendingString:@" - "] stringByAppendingString:[host name]];
-        
         [self createNewDisabledItem:title];
-        
     }
 
     [menu addItem:[NSMenuItem separatorItem]];
