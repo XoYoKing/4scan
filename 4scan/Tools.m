@@ -52,7 +52,7 @@
     [masks setValue:@"/30" forKey:@"0xfffffffc"];
     [masks setValue:@"/31" forKey:@"0xfffffffe"];
     [masks setValue:@"/32" forKey:@"0xffffffff"];
-
+    
     return [masks valueForKey:[mask stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 
 }
@@ -97,8 +97,18 @@
         NSString* name = ([[parts objectAtIndex:1] rangeOfString:@"?"].location != NSNotFound) ? [parts objectAtIndex:2] : [parts objectAtIndex:1];
 
         // Fix missing leading 0
-        if([name length] == 16 && [name containsString:@":"])
-            name = [NSString stringWithFormat:@"%@%@", @"0", name];
+        if([name containsString:@":"]){
+            NSArray *macs = [name componentsSeparatedByString:@":"];
+            NSMutableArray *mutableMacs = [macs mutableCopy];
+            
+            for (int i=0; i<[mutableMacs count]; i++) {
+                if([[mutableMacs objectAtIndex:i] length] == 1){
+                    mutableMacs[i] = [NSString stringWithFormat:@"%@%@", @"0", [mutableMacs objectAtIndex:i]];;
+                }
+            }
+            name = [mutableMacs componentsJoinedByString:@":"];
+        }
+        
         
         [host setName:name];
         
